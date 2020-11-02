@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 const app = require('../app')
+const { SECRET } = require('../utils/config')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const { initialBlogs } = require('./test_init_blogs')
@@ -25,7 +26,7 @@ beforeAll(async () => {
     .send({ username: 'root', password: 'root' })
 
   token = response.body.token
-  decodedToken = jwt.verify(token, process.env.SECRET)
+  decodedToken = jwt.verify(token, SECRET)
 })
 
 beforeEach(async () => {

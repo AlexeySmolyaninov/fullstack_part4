@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken')
 const blogRouter = require('express').Router()
+
+const { SECRET } = require('../utils/config')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
@@ -13,7 +15,7 @@ blogRouter.get('/', async (request, response) => {
 
 blogRouter.post('/', async (request, response) => {
   const body = request.body
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, SECRET)
   if(!request.token || !decodedToken.userId) {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
@@ -40,7 +42,7 @@ blogRouter.post('/', async (request, response) => {
 })
 
 blogRouter.delete('/:id', async (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, SECRET)
   if(!decodedToken) {
     return response.status(401).send({
       error: 'you should be authorized to perform this actoin'
